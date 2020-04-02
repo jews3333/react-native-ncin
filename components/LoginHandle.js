@@ -1,30 +1,26 @@
 import React from 'react';
-import { Alert } from 'react-native';
+import { Alert, BackHandler, AsyncStorage, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default class LoginHandle extends React.Component {
 
-    // injectLogin = (id, password) => {
-    //     return `(function(id, password){
-    //         setTimeout(() => {
-    //             try{
-    //                 fn_goOffice();
-    //             } catch(err) {
-    //                 alert('자동로그인 실패하였습니다.');
-    //             }
-    //             window.close();
-    //         });
-    //         document.getElementById("userid").value = id;
-    //         document.getElementById("password").value = password;
-    //         document.getElementById("loginVO").submit();
-    //     }('${id}','${password}'))`
-    // }
+    constructor(props){
+        super(props);
+        this.state = {
+            visible: false
+        }
+    }
+
+    componentDidMount(){
+        this.setState({
+            visible: true,
+        })
+    }
 
     injectLogin = (id, password) => {
         return `(function(id, password){
-            setTimeout(() => {
-                window.ReactNativeWebView.postMessage("되는거가마는거가");
-            }, 3000);
+            fn_goOffice();
+            window.ReactNativeWebView.postMessage("확인되었습니다!");
             document.getElementById("userid").value = id;
             document.getElementById("password").value = password;
             document.getElementById("loginVO").submit();
@@ -32,15 +28,78 @@ export default class LoginHandle extends React.Component {
     }
 
     render(){
-        const { id, password } = this.props;
+        const { id, password, onAgain } = this.props;
         return (
+            this.state.visible ?
             <WebView 
                 source={{uri:'http://gw.ncin.co.kr/Login.do'}}
                 injectedJavaScript={this.injectLogin(id, password)}
-                onMessage={(event) => Alert.alert(event.nativeEvent.data)}
+                onMessage={(event) => {
+                    Alert.alert(
+                        event.nativeEvent.data,
+                        'DELETE를 누르시면 저장된 아이디가 삭제됩니다.',
+                        [
+                            {
+                                text: 'OK',
+                                onPress: () => {
+                                    this.setState({
+                                        visible: false
+                                    });
+                                }
+                            },
+                            {
+                                text: 'DELETE',
+                                onPress: () => {
+                                    this.setState({
+                                        visible: false
+                                    });
+                                    AsyncStorage.clear();
+                                }
+                            }
+                        ],
+                        {cancelable: false}
+                    );
+                }}
                 ref={(webView) => this.webView = webView}
                 style={{width:"100%", height: "100%"}}
             />
+            :
+            <View style={styles.container}>
+                <Text style={{fontSize:20}}>Run again?</Text>
+                <View style={{marginTop: 20, flexDirection:"row"}}>
+                    <TouchableOpacity onPress={() => onAgain()} style={styles.ok}>
+                        <Text style={{color:"#fff"}}>OK</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => BackHandler.exitApp()} style={styles.exit}>
+                        <Text>Exit</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    ok: {
+        width: 100,
+        height: 40,
+        alignItems:"center",
+        justifyContent: "center",
+        backgroundColor: "#4b75b8",
+        borderRadius: 3,
+        marginRight: 20
+    },
+    exit: {
+        width: 100,
+        height: 40,
+        alignItems:"center",
+        justifyContent: "center",
+        backgroundColor: "#f5f5f5",
+        borderRadius: 3
+    }
+})

@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, AsyncStorage, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, AsyncStorage, Alert, Image } from 'react-native';
 import LoginHandle from './components/LoginHandle';
+import * as Font from 'expo-font';
 
 export default class App extends React.Component {
   
@@ -11,6 +12,13 @@ export default class App extends React.Component {
       id: "",
       password: ""
     }
+  }
+
+  onRunAgain = () => {
+    this.setState({
+      submit: false
+    });
+    this.componentDidMount();
   }
 
   onSubmit = () => {
@@ -44,8 +52,13 @@ export default class App extends React.Component {
     this.onSubmit();
   }
 
-  async componentDidMount(){
-    AsyncStorage.clear();
+  componentDidMount = async () => {
+
+    // await Font.loadAsync({
+    //   'SenR': require('./assets/fonts/Sen-Regular.otf'),
+    //   'SenB': require('./assets/fonts/Sen-Bold.otf')
+    // });
+
     try {
       const saveId = await AsyncStorage.getItem("SAVE_ID");
       const savePw = await AsyncStorage.getItem("SAVE_PW");
@@ -74,32 +87,33 @@ export default class App extends React.Component {
   }
 
   render(){
+
     return (
         this.state.submit ?
-        <LoginHandle id={this.state.id} password={this.state.password} sumit={this.state.submit} />
+        <LoginHandle id={this.state.id} password={this.state.password} sumit={this.state.submit} onAgain={this.onRunAgain} />
         : <View style={styles.container}>
           <View style={styles.wrap}>
-            <View style={{ marginBottom: 20}}>
-              <Text style={styles.title}>NCIN MEMBERS AUTO LOGIN</Text>
+            <View style={{marginBottom: 20}}>
+              <Text style={styles.title}>NCIN GROUPWARE AUTO <Text style={{color:'#4b75b8'}}>LOGIN</Text></Text>
             </View>
-            <View style={{flex:1, marginBottom:5}}>
+            <View style={{marginBottom:5}}>
               <TextInput
-                placeholder="아이디"
+                placeholder="ID"
                 onChangeText={text => this.setState({ id: text })}
                 style={styles.input}
               />
             </View>
-            <View style={{flex:1, marginBottom:5}}>
+            <View style={{marginBottom:5}}>
               <TextInput
                 secureTextEntry={true}
-                placeholder="패스워드"
+                placeholder="PASSWORD"
                 onChangeText={text => this.setState({ password: text })}
                 style={styles.input}
               />
             </View>
-            <View style={{flex:1}}>
+            <View>
               <TouchableOpacity onPress={() => this.onSave()} style={styles.submit}>
-                <Text style={{color:"#fff"}}>로그인</Text>
+                <Text style={{color:"#fff"}}>LOGIN</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -114,18 +128,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#e9e9e9",
     padding:15
   },
   wrap: {
-    padding: 30,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    backgroundColor: "#fff"
+    
   },
   title: {
-    fontSize: 30,
+    fontSize: 20,
     color: "#333",
     lineHeight: 32,
     textAlign:"center"
@@ -140,7 +149,7 @@ const styles = StyleSheet.create({
   submit: {
     height: 50,
     borderRadius: 5,
-    backgroundColor: "#5E6898",
+    backgroundColor: "#4b75b8",
     justifyContent: "center",
     alignItems: "center"
   }
