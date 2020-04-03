@@ -12,15 +12,20 @@ export default class LoginHandle extends React.Component {
     }
 
     componentDidMount(){
-        this.setState({
-            visible: true,
+        this.setState({ 
+            visible: true
         })
     }
 
     injectLogin = (id, password) => {
-        return `(function(id, password){
-            fn_goOffice();
-            window.ReactNativeWebView.postMessage("확인되었습니다!");
+        return `document.addEventListener("message",function(event){
+            location.href = "/"+event+".do";
+        });
+        (function(id, password){
+            setTimeout(function(){
+                fn_goOffice();
+                window.ReactNativeWebView.postMessage("확인되었습니다!8");
+            }, 1000);
             document.getElementById("userid").value = id;
             document.getElementById("password").value = password;
             document.getElementById("loginVO").submit();
@@ -33,6 +38,7 @@ export default class LoginHandle extends React.Component {
             this.state.visible ?
             <WebView 
                 source={{uri:'http://gw.ncin.co.kr/Login.do'}}
+                ref={(webView) => this.webView = webView}
                 injectedJavaScript={this.injectLogin(id, password)}
                 onMessage={(event) => {
                     Alert.alert(
@@ -42,9 +48,10 @@ export default class LoginHandle extends React.Component {
                             {
                                 text: 'OK',
                                 onPress: () => {
-                                    this.setState({
-                                        visible: false
-                                    });
+                                    this.webView.postMessage("ActionLogout");
+                                    // this.setState({
+                                    //     visible: false
+                                    // });
                                 }
                             },
                             {
@@ -60,8 +67,9 @@ export default class LoginHandle extends React.Component {
                         {cancelable: false}
                     );
                 }}
-                ref={(webView) => this.webView = webView}
                 style={{width:"100%", height: "100%"}}
+                cacheEnabled={false}
+                sharedCookiesEnabled={false}
             />
             :
             <View style={styles.container}>

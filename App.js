@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, AsyncStorage, Alert, Image } from 'react-native';
 import LoginHandle from './components/LoginHandle';
-import * as Font from 'expo-font';
+//import * as Font from 'expo-font';
 
 export default class App extends React.Component {
   
@@ -95,6 +95,7 @@ export default class App extends React.Component {
           <View style={styles.wrap}>
             <View style={{marginBottom: 20}}>
               <Text style={styles.title}>NCIN GROUPWARE AUTO <Text style={{color:'#4b75b8'}}>LOGIN</Text></Text>
+              <Text>최초 로그인 데이터가 앱에 저장됩니다.</Text>
             </View>
             <View style={{marginBottom:5}}>
               <TextInput
