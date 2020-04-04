@@ -23,13 +23,20 @@ export default class LoginHandle extends React.Component {
             location.href = "/"+event.data+".do";
         });
         (function(id, password){
+            if(document.head.outerHTML.indexOf("아이디 또는 비밀번호가 잘못 입력 되었습니다.") > 0){
+                window.ReactNativeWebView.postMessage("실패하였습니다!");
+                return false;
+            }
+
             setTimeout(function(){
                 fn_goOffice();
-                window.ReactNativeWebView.postMessage("확인되었습니다!9");
-            }, 1000);
+                window.ReactNativeWebView.postMessage("확인되었습니다!");
+            }, 100);
+
             document.getElementById("userid").value = id;
             document.getElementById("password").value = password;
             document.getElementById("loginVO").submit();
+
         }('${id}','${password}'))`
     }
 
