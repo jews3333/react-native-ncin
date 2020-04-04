@@ -7,7 +7,8 @@ export default class LoginHandle extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            visible: false
+            visible: false,
+            uri: "http://gw.ncin.co.kr/ActionLogout.do"
         }
     }
 
@@ -19,12 +20,12 @@ export default class LoginHandle extends React.Component {
 
     injectLogin = (id, password) => {
         return `document.addEventListener("message",function(event){
-            location.href = "/"+event+".do";
+            location.href = "/"+event.data+".do";
         });
         (function(id, password){
             setTimeout(function(){
                 fn_goOffice();
-                window.ReactNativeWebView.postMessage("확인되었습니다!8");
+                window.ReactNativeWebView.postMessage("확인되었습니다!9");
             }, 1000);
             document.getElementById("userid").value = id;
             document.getElementById("password").value = password;
@@ -37,7 +38,7 @@ export default class LoginHandle extends React.Component {
         return (
             this.state.visible ?
             <WebView 
-                source={{uri:'http://gw.ncin.co.kr/Login.do'}}
+                source={{uri: this.state.uri}}
                 ref={(webView) => this.webView = webView}
                 injectedJavaScript={this.injectLogin(id, password)}
                 onMessage={(event) => {
@@ -48,10 +49,9 @@ export default class LoginHandle extends React.Component {
                             {
                                 text: 'OK',
                                 onPress: () => {
-                                    this.webView.postMessage("ActionLogout");
-                                    // this.setState({
-                                    //     visible: false
-                                    // });
+                                    this.setState({
+                                            visible: false
+                                    });
                                 }
                             },
                             {
