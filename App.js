@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, AsyncStorage, Alert, Image } from 'react-native';
-import LoginHandle from './components/LoginHandle';
+import LoginHandle from './containers/LoginHandle';
 //import * as Font from 'expo-font';
 
 export default class App extends React.Component {

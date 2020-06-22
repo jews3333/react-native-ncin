@@ -8,7 +8,8 @@ export default class LoginHandle extends React.Component {
         super(props);
         this.state = {
             visible: false,
-            uri: "http://gw.ncin.co.kr/ActionLogout.do"
+            uri: "http://gw.ncin.co.kr/ActionLogin.do"
+//            uri: "http://gw.ncin.co.kr/ActionLogout.do"
         }
     }
 
@@ -18,26 +19,45 @@ export default class LoginHandle extends React.Component {
         })
     }
 
-    injectLogin = (id, password) => {
+    // injectLogin = (id, password) => {
+    //     return `document.addEventListener("message",function(event){
+    //         location.href = "/"+event.data+".do";
+    //     });
+    //     (function(id, password){
+    //         if(document.head.outerHTML.indexOf("아이디 또는 비밀번호가 잘못 입력 되었습니다.") > 0){
+    //             window.ReactNativeWebView.postMessage("실패하였습니다!");
+    //             return false;
+    //         }
+
+    //         setTimeout(function(){
+    //             fn_goOffice();
+    //             window.ReactNativeWebView.postMessage("확인되었습니다!");
+    //         }, 100);
+
+    //         document.getElementById("userid").value = id;
+    //         document.getElementById("password").value = password;
+    //         document.getElementById("loginVO").submit();
+
+    //     }('${id}','${password}'))`
+    // }
+
+    injectLogin = () => {
         return `document.addEventListener("message",function(event){
             location.href = "/"+event.data+".do";
         });
-        (function(id, password){
-            if(document.head.outerHTML.indexOf("아이디 또는 비밀번호가 잘못 입력 되었습니다.") > 0){
-                window.ReactNativeWebView.postMessage("실패하였습니다!");
-                return false;
-            }
-
-            setTimeout(function(){
+        $(function(){
+            alert("시작");
+            (function(){
+                if(document.head.outerHTML.indexOf("아이디 또는 비밀번호가 잘못 입력 되었습니다.") > 0){
+                    window.ReactNativeWebView.postMessage("실패하였습니다!");
+                    return false;
+                }
+                
                 fn_goOffice();
                 window.ReactNativeWebView.postMessage("확인되었습니다!");
-            }, 100);
-
-            document.getElementById("userid").value = id;
-            document.getElementById("password").value = password;
-            document.getElementById("loginVO").submit();
-
-        }('${id}','${password}'))`
+    
+            }()
+        })`
     }
 
     render(){
@@ -45,9 +65,9 @@ export default class LoginHandle extends React.Component {
         return (
             this.state.visible ?
             <WebView 
-                source={{uri: this.state.uri}}
+                source={{uri: `${this.state.uri}?userid=${id}&password=${password}`}}
                 ref={(webView) => this.webView = webView}
-                injectedJavaScript={this.injectLogin(id, password)}
+                injectedJavaScript={this.injectLogin()}
                 onMessage={(event) => {
                     Alert.alert(
                         event.nativeEvent.data,
@@ -57,7 +77,7 @@ export default class LoginHandle extends React.Component {
                                 text: 'OK',
                                 onPress: () => {
                                     this.setState({
-                                            visible: false
+                                        visible: false
                                     });
                                 }
                             },
