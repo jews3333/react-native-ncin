@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, AsyncStorage, Alert, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, AsyncStorage, Alert } from 'react-native';
 import LoginHandle from './containers/LoginHandle';
 //import * as Font from 'expo-font';
 
@@ -16,6 +16,7 @@ export default class App extends React.Component {
 
   onRunAgain = () => {
     this.setState({
+      ...this.state,
       submit: false
     });
     this.componentDidMount();
@@ -45,7 +46,7 @@ export default class App extends React.Component {
       await AsyncStorage.setItem("SAVE_PW", this.state.password);
     }
     catch(err){
-      alert(err);
+      Alert.alert(err);
       return;
     }
 
@@ -62,6 +63,7 @@ export default class App extends React.Component {
     try {
       const saveId = await AsyncStorage.getItem("SAVE_ID");
       const savePw = await AsyncStorage.getItem("SAVE_PW");
+
       if(saveId !== null) {
         this.setState({
           ...this.state,
@@ -74,11 +76,10 @@ export default class App extends React.Component {
             password: savePw
           });
 
-          
           this.onSubmit();
 
         }
-
+ 
       }
     }
     catch(err){
@@ -90,7 +91,7 @@ export default class App extends React.Component {
 
     return (
         this.state.submit ?
-        <LoginHandle id={this.state.id} password={this.state.password} sumit={this.state.submit} onAgain={this.onRunAgain} />
+        <LoginHandle id={this.state.id} password={this.state.password} submit={this.state.submit} onAgain={this.onRunAgain} />
         : <View style={styles.container}>
           <View style={styles.wrap}>
             <View style={{marginBottom: 20}}>

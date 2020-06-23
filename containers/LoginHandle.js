@@ -1,20 +1,19 @@
 import React from 'react';
 import { Alert, BackHandler, AsyncStorage, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
+import Networking from 'react-native/Libraries/Network/RCTNetworking';
 
 export default class LoginHandle extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            visible: false,
-            uri: "http://gw.ncin.co.kr/ActionLogin.do"
-//            uri: "http://gw.ncin.co.kr/ActionLogout.do"
+            visible: false
         }
     }
 
     componentDidMount(){
-        this.setState({ 
+        this.setState({
             visible: true
         })
     }
@@ -45,19 +44,20 @@ export default class LoginHandle extends React.Component {
         return `document.addEventListener("message",function(event){
             location.href = "/"+event.data+".do";
         });
-        $(function(){
-            alert("시작");
-            (function(){
-                if(document.head.outerHTML.indexOf("아이디 또는 비밀번호가 잘못 입력 되었습니다.") > 0){
-                    window.ReactNativeWebView.postMessage("실패하였습니다!");
-                    return false;
-                }
-                
+
+        (function(){
+
+            if(document.head.outerHTML.indexOf("아이디 또는 비밀번호가 잘못 입력 되었습니다.") > 0){
+                window.ReactNativeWebView.postMessage("실패하였습니다!");
+                return false;
+            }
+
+            if(location.pathname == "/Main.do" || location.pathname == "/ttm.do"){
                 fn_goOffice();
-                window.ReactNativeWebView.postMessage("확인되었습니다!");
-    
-            }()
-        })`
+                window.ReactNativeWebView.postMessage("확인되었습니다!"); 
+            }
+
+        }());`
     }
 
     render(){
@@ -65,12 +65,12 @@ export default class LoginHandle extends React.Component {
         return (
             this.state.visible ?
             <WebView 
-                source={{uri: `${this.state.uri}?userid=${id}&password=${password}`}}
+                source={{uri: `http://gw.ncin.co.kr/ActionLogin.do?userid=${id}&password=${password}`}}
                 ref={(webView) => this.webView = webView}
                 injectedJavaScript={this.injectLogin()}
-                onMessage={(event) => {
+                onMessage={(event) => { 
                     Alert.alert(
-                        event.nativeEvent.data,
+                        event.nativeEvent.data, 
                         'DELETE를 누르시면 저장된 아이디가 삭제됩니다.',
                         [
                             {
@@ -87,6 +87,7 @@ export default class LoginHandle extends React.Component {
                                     this.setState({
                                         visible: false
                                     });
+                                    Networking.clearCookies((cleared) => console.log(cleared));
                                     AsyncStorage.clear();
                                 }
                             }

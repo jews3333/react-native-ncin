@@ -1,30 +1,20 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add RCTNetworking
+  C:\Program Files\nodejs\node.exe C:\Program Files\Yarn\bin\yarn.js add @react-native-community/cookies
 
 PATH: 
-  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Users\CSH\AppData\Roaming\npm;C:\Users\CSH\AppData\Local\Microsoft\WindowsApps;C:\Users\조승현\AppData\Roaming\npm;C:\Users\조승현\AppData\Local\Yarn\bin;C:\Users\조승현\AppData\Local\Programs\Microsoft VS Code\bin
+  C:\Users\bu8886679\AppData\Roaming\npm;\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\nodejs\;C:\Program Files\Yarn\bin\;C:\Program Files\Git\cmd;C:\Users\bu8886679\AppData\Roaming\npm;C:\Users\bu8886679\AppData\Local\Yarn\bin;C:\Users\bu8886679\AppData\Local\Programs\Microsoft VS Code\bin
 
 Yarn version: 
   1.22.4
 
 Node version: 
-  12.16.1
+  12.17.0
 
 Platform: 
-  win32 x64
+  win32 ia32
 
 Trace: 
-  Error: https://registry.yarnpkg.com/RCTNetworking: Not found
-      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66096:18)
-      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140748:22)
-      at Request.emit (events.js:311:20)
-      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141720:10)
-      at Request.emit (events.js:311:20)
-      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141642:12)
-      at Object.onceWrapper (events.js:417:28)
-      at IncomingMessage.emit (events.js:323:22)
-      at endReadableNT (_stream_readable.js:1204:12)
-      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: EPERM: operation not permitted, unlink 'C:\Users\bu8886679\project\react-native-ncin\node_modules\@babel\plugin-proposal-private-methods\lib'
 
 npm manifest: 
   {
@@ -43,6 +33,7 @@ npm manifest:
       "react": "16.9.0",
       "react-dom": "16.9.0",
       "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.0.tar.gz",
+      "react-native-cookies": "^3.3.0",
       "react-native-web": "^0.11.7",
       "react-native-webview": "8.1.1"
     },
@@ -2945,7 +2936,7 @@ Lockfile:
       strip-ansi "^4.0.0"
       through "^2.3.6"
   
-  invariant@2.2.4, invariant@^2.2.2, invariant@^2.2.4:
+  invariant@2.2.4, invariant@^2.1.0, invariant@^2.2.2, invariant@^2.2.4:
     version "2.2.4"
     resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
     integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -4585,6 +4576,13 @@ Lockfile:
     version "16.13.1"
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
     integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+  
+  react-native-cookies@^3.3.0:
+    version "3.3.0"
+    resolved "https://registry.yarnpkg.com/react-native-cookies/-/react-native-cookies-3.3.0.tgz#527f65eb2d8a7a000107706bb11beb57f511e701"
+    integrity sha512-GobKo8Kvyuif6ROj6rDAjQJpCSLazcZl6AgZb1z7ldB9FrMtetQzXvIehS0QcwbpnXWyJzXJaY0yrlDjFz+NaA==
+    dependencies:
+      invariant "^2.1.0"
   
   react-native-view-shot@3.1.2:
     version "3.1.2"
