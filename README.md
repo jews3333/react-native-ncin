@@ -3,7 +3,7 @@
 
 ### 주요기술
 * expo-cli
- * react-native 빠르게 진행하기 위해 사용
+  * react-native 빠르게 진행하기 위해 사용
 * react-native-webview
  * 그룹웨어 접속을 위한 웹뷰
 * react-native/AsyncStorage
