@@ -23,6 +23,7 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.reactnative.ncin",
       "supportsTablet": true
     },
     "android": {
